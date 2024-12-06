@@ -1,27 +1,30 @@
-# create-torrent [![ci][ci-image]][ci-url] [![npm][npm-image]][npm-url] [![downloads][downloads-image]][downloads-url] [![javascript style guide][standard-image]][standard-url]
+# create-torrent
+![tests](https://github.com/bicycle-codes/crypto-util/actions/workflows/nodejs.yml/badge.svg)
+[![types](https://img.shields.io/npm/types/@substrate-system/icons?style=flat-square)](README.md)
+[![module](https://img.shields.io/badge/module-ESM%2FCJS-blue?style=flat-square)](README.md)
+[![semantic versioning](https://img.shields.io/badge/semver-2.0.0-blue?logo=semver&style=flat-square)](https://semver.org/)
+[![Common Changelog](https://nichoth.github.io/badge/common-changelog.svg)](./CHANGELOG.md)
+[![install size](https://flat.badgen.net/packagephobia/install/@nichoth/session-cookie)](https://packagephobia.com/result?p=@nichoth/session-cookie)
+[![dependencies](https://img.shields.io/badge/dependencies-zero-brightgreen.svg?style=flat-square)](package.json)
+[![license](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
-[ci-image]: https://github.com/webtorrent/create-torrent/actions/workflows/ci.yml/badge.svg
-[ci-url]: https://github.com/webtorrent/create-torrent/actions/workflows/ci.yml
-[npm-image]: https://img.shields.io/npm/v/create-torrent.svg
-[npm-url]: https://npmjs.org/package/create-torrent
-[downloads-image]: https://img.shields.io/npm/dm/create-torrent.svg
-[downloads-url]: https://npmjs.org/package/create-torrent
-[standard-image]: https://img.shields.io/badge/code_style-standard-brightgreen.svg
-[standard-url]: https://standardjs.com
+<details><summary><h2>Contents</h2></summary>
+<!-- toc -->
+</details>
 
-#### Create .torrent files
+## Create .torrent files
 
 ![creation](https://raw.githubusercontent.com/webtorrent/create-torrent/master/img.jpg)
 
-This module is used by [WebTorrent](http://webtorrent.io)! This module works in node.js and the browser (with [browserify](http://browserify.org/)).
+This module is used by [WebTorrent](http://webtorrent.io)! This module works in node.js and the browser.
 
-### install
+## install
 
+```sh
+npm i -S create-torrent
 ```
-npm install create-torrent
-```
 
-### usage
+## usage
 
 The simplest way to use `create-torrent` is like this:
 
@@ -41,9 +44,9 @@ A reasonable piece length (approx. 1024 pieces) will automatically be selected
 for the .torrent file, or you can override it if you want a different size (See
 API docs below).
 
-### api
+## api
 
-#### `createTorrent(input, [opts], function callback (err, torrent) {})`
+### `createTorrent(input, [opts], function callback (err, torrent) {})`
 
 Create a new `.torrent` file.
 
@@ -92,8 +95,12 @@ Trackers that start with `wss://` are for WebRTC peers. See
 `callback` is called with an error and a Buffer of the torrent data. It is up to you to
 save it to a file if that's what you want to do.
 
-**Note:** Every torrent is required to have a name. If one is not explicitly provided
-through `opts.name`, one will be determined automatically using the following logic:
+>
+> [!NOTE]  
+> Every torrent is required to have a name. If one is not explicitly provided
+> through `opts.name`, one will be determined automatically using the following
+> logic:
+>
 
 - If all files share a common path prefix, that will be used. For example, if all file
   paths start with `/imgs/` the torrent name will be `imgs`.
@@ -102,16 +109,19 @@ through `opts.name`, one will be determined automatically using the following lo
 - If no files have names (say that all files are Buffer or Stream objects), then a name
   like "Unnamed Torrent <id>" will be generated.
 
-**Note:** Every file is required to have a name. For filesystem paths or W3C File objects,
-the name is included in the object. For Buffer or Readable stream types, a `name` property
-can be set on the object, like this:
+>
+> [!NOTE]  
+> Every file is required to have a name. For filesystem paths or W3C File objects,
+> the name is included in the object. For Buffer or Readable stream types, a `name` property
+> can be set on the object, like this:
+> 
 
 ```js
 const buf = Buffer.from('Some file content')
 buf.name = 'Some file name'
 ```
 
-### command line
+## command line
 
 ```
 usage: create-torrent <directory OR file> {-o outfile.torrent}
@@ -122,6 +132,6 @@ If an output file isn\'t specified with `-o`, the torrent file will be
 written to stdout.
 ```
 
-### license
+## license
 
 MIT. Copyright (c) [Feross Aboukhadijeh](https://feross.org) and [WebTorrent, LLC](https://webtorrent.io).
