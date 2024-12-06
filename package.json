@@ -1,5 +1,5 @@
 {
-  "name": "create-torrent",
+  "name": "@substrate-system/create-torrent",
   "description": "Create .torrent files",
   "version": "6.0.18",
   "author": {
@@ -12,11 +12,25 @@
     "create-torrent": "./bin/cmd.js"
   },
   "bugs": {
-    "url": "https://github.com/webtorrent/create-torrent/issues"
+    "url": "https://github.com/substrate-system/create-torrent/issues"
   },
-  "browser": {
-    "./get-files.js": false,
-    "is-file": false
+  "exports": {
+    "import": "./index.js"
+  },
+  "scripts": {
+    "lint": "eslint \"./**/*.{ts,js}\"",
+    "build-cjs": "esbuild src/*.ts --format=cjs --keep-names --tsconfig=tsconfig.build.json --outdir=./dist --out-extension:.js=.cjs --sourcemap",
+    "build-cjs:min": "esbuild src/*.ts --format=cjs --minify --keep-names --tsconfig=tsconfig.build.json --outdir=./dist --out-extension:.js=.min.cjs --sourcemap",
+    "build-esm": "esbuild src/*.ts --format=esm --metafile=dist/meta.json --keep-names --tsconfig=tsconfig.build.json --outdir=./dist --sourcemap && tsc --emitDeclarationOnly --project tsconfig.build.json --outDir dist",
+    "build-esm:min": "esbuild ./src/*.ts --format=esm --keep-names --bundle --tsconfig=tsconfig.build.json --minify --out-extension:.js=.min.js --outdir=./dist --sourcemap",
+    "build-docs": "typedoc ./src/index.ts",
+    "build": "mkdir -p ./dist && rm -rf ./dist/* && npm run build-cjs && npm run build-esm && npm run build-esm:min && npm run build-cjs:min",
+    "test": "tape test/*.js",
+    "toc": "markdown-toc --maxdepth 3 -i README.md",
+    "preversion": "npm run lint",
+    "version": "npm run toc && auto-changelog -p --template keepachangelog --breaking-pattern 'BREAKING CHANGE:' && git add CHANGELOG.md README.md",
+    "postversion": "git push --follow-tags && npm publish",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "bencode": "^4.0.0",
@@ -33,19 +47,29 @@
     "uint8-util": "^2.2.5"
   },
   "devDependencies": {
+    "@substrate-system/debug": "^0.7.4",
+    "@substrate-system/tapzero": "^0.10.5",
+    "@types/node": "^22.10.1",
+    "@typescript-eslint/eslint-plugin": "^8.17.0",
+    "@typescript-eslint/parser": "^8.17.0",
     "@webtorrent/semantic-release-config": "1.0.10",
+    "auto-changelog": "^2.5.0",
     "brfs": "2.0.2",
+    "esbuild": "^0.24.0",
+    "eslint": "^8.57.1",
+    "eslint-config-standard": "^17.1.0",
+    "markdown-toc": "^1.2.0",
     "parse-torrent": "11.0.17",
     "semantic-release": "21.1.2",
     "standard": "*",
+    "tap-spec": "^5.0.0",
     "tape": "5.9.0",
+    "typedoc": "^0.27.3",
+    "typescript": "^5.7.2",
     "webtorrent-fixtures": "2.0.2"
   },
   "engines": {
     "node": ">=12"
-  },
-  "exports": {
-    "import": "./index.js"
   },
   "keywords": [
     ".torrent",
@@ -60,41 +84,9 @@
     "torrent files",
     "webtorrent"
   ],
-  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/webtorrent/create-torrent.git"
+    "url": "git://github.com/substrate-system/create-torrent.git"
   },
-  "scripts": {
-    "test": "standard && tape test/*.js"
-  },
-  "standard": {
-    "globals": [
-      "Blob",
-      "FileList"
-    ]
-  },
-  "funding": [
-    {
-      "type": "github",
-      "url": "https://github.com/sponsors/feross"
-    },
-    {
-      "type": "patreon",
-      "url": "https://www.patreon.com/feross"
-    },
-    {
-      "type": "consulting",
-      "url": "https://feross.org/support"
-    }
-  ],
-  "renovate": {
-    "extends": [
-      "github>webtorrent/renovate-config"
-    ],
-    "rangeStrategy": "bump"
-  },
-  "release": {
-    "extends": "@webtorrent/semantic-release-config"
-  }
+  "license": "MIT"
 }

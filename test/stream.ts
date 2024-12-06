@@ -1,9 +1,9 @@
+import { test } from '@substrate-system/tapzero'
 import fixtures from 'webtorrent-fixtures'
 import fs from 'fs'
 import parseTorrent from 'parse-torrent'
 import path from 'path'
 import { hash } from 'uint8-util'
-import test from 'tape'
 import createTorrent from '../index.js'
 
 test('create single file torrent from a stream', t => {
