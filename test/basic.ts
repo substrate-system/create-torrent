@@ -1,7 +1,7 @@
 import parseTorrent from 'parse-torrent'
 import path from 'path'
-import test from 'tape'
-import createTorrent from '../index.js'
+import { test } from '@substrate-system/tapzero'
+import createTorrent from '../src/index.js'
 
 test('implicit torrent name and file name', t => {
   t.plan(5)
@@ -9,7 +9,7 @@ test('implicit torrent name and file name', t => {
   const buf1 = Buffer.from('buf1')
 
   createTorrent(buf1, async (err, torrent) => {
-    t.error(err)
+    if (err) t.fail(err)
     const parsedTorrent = await parseTorrent(torrent)
 
     t.ok(parsedTorrent.name.includes('Unnamed Torrent'))
@@ -26,7 +26,7 @@ test('implicit file name from torrent name', t => {
   const buf1 = Buffer.from('buf1')
 
   createTorrent(buf1, { name: 'My Cool File' }, async (err, torrent) => {
-    t.error(err)
+    if (err) t.fail(err)
     const parsedTorrent = await parseTorrent(torrent)
 
     t.equal(parsedTorrent.name, 'My Cool File')
